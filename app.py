@@ -31,4 +31,4 @@ def webhook():
     return "ok"
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=10000) kannst du schritt 1 hier einfach einbauen
+    socketio.run(app, host="0.0.0.0", port=10000)
