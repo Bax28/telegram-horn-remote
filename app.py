@@ -21,11 +21,21 @@ def webhook():
         chat_id = data["message"]["chat"]["id"]
         text = data["message"].get("text", "")
 
-        if text == "/horn":
-            socketio.emit("horn_signal")
+        if text.startswith("/horn"):
+            parts = text.split()
+
+            # Standard: sehr lange laufen
+            duration = 9999  
+
+            # Wenn Zahl angegeben wurde → Dauer setzen
+            if len(parts) > 1 and parts[1].isdigit():
+                duration = int(parts[1])
+
+            socketio.emit("horn_signal", {"duration": duration})
+
             requests.post(f"{TELEGRAM_API}/sendMessage", json={
                 "chat_id": chat_id,
-                "text": "🔊 HORN AUSGELÖST"
+                "text": f"🔊 HORN für {duration} Sekunden"
             })
 
     return "ok"
